@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flos | Archive</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700&family=Noto+Sans+KR:wght@300;400;700&display=swap');
+        
+        body { 
+            font-family: 'Noto Sans KR', sans-serif; 
+            background-color: #080a08; 
+            color: #e5e7eb; 
+            overflow: hidden; /* 입장 전 스크롤 방지 */
+        }
+        h1, h2, h3, .font-myeongjo { font-family: 'Nanum Myeongjo', serif; }
+
+        /* 부드러운 배경 움직임 (Floating Leaves) */
+        .bg-pattern {
+            position: fixed;
+            inset: 0;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MCIgaGVpZ2h0PSI4MCIgdmlld0JveD0iMCAwIDgwIDgwIj48cGF0aCBkPSJNMzAgMjBDMjAgMjAgMTUgMzAgMTUgNDBDMTUgNTAgMjAgNjAgMzAgNjBDNDAgNjAgNDUgNTAgNDUgNDBDNDUgMzAgNDAgMjAgMzAgMjBaIiBmaWxsPSIjZjQ3MmI2IiBmaWxsLW9wYWNpdHk9IjAuMDUiLz48L3N2Zz4=');
+            animation: drift 20s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes drift {
+            from { background-position: 0 0; }
+            to { background-position: 500px 1000px; }
+        }
+
+        /* 탭 전환 애니메이션 */
+        .tab-content {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 색상 정의 */
+        .color-y { color: #facc15; }
+        .color-p { color: #f472b6; }
+        .border-p { border-color: #f472b6; }
+        .bg-p { background-color: #f472b6; }
+
+        /* 버튼 글로우 효과 */
+        .btn-glow:hover {
+            box-shadow: 0 0 20px rgba(244, 114, 182, 0.4);
+        }
+    </style>
+</head>
+<body x-data="{ entered: false, tab: 'world' }" :class="entered ? 'overflow-auto' : 'overflow-hidden'">
+
+    <div x-show="!entered" 
+         x-transition:leave="transition ease-in duration-1000"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         class="fixed inset-0 z-[100] bg-[#080a08] flex flex-col items-center justify-center text-center px-6">
+        
+        <div class="mb-12">
+            <h1 class="text-6xl md:text-8xl font-bold tracking-[0.3em] color-y mb-4">FLOS</h1>
+            <p class="text-gray-500 tracking-[0.2em] text-sm uppercase font-myeongjo">Kingdom of Anteia Archive</p>
+        </div>
+
+        <button @click="entered = true" 
+                class="group relative px-12 py-4 border border-pink-900/50 rounded-full text-white tracking-[0.2em] text-sm hover:border-point-p transition-all duration-500 btn-glow">
+            <span class="relative z-10">[ 입장하기 ]</span>
+            <div class="absolute inset-0 bg-p opacity-0 group-hover:opacity-10 transition-opacity rounded-full"></div>
+        </button>
+
+        <div class="absolute bottom-10 opacity-20">
+            <svg class="w-12 h-12 text-gray-700 animate-pulse" fill="currentColor" viewBox="0 0 24 24"><path d="M17,8C15.5,8 14.2,8.8 13.5,10C12.8,8.8 11.5,8 10,8C7.8,8 6,9.8 6,12C6,14.2 7.8,16 10,16C11.5,16 12.8,15.2 13.5,14C14.2,15.2 15.5,16 17,16C19.2,16 21,14.2 21,12C21,9.8 19.2,8 17,8Z"/></svg>
+        </div>
+    </div>
+
+    <div x-show="entered" class="min-h-screen flex flex-col">
+        
+        <div class="bg-pattern"></div>
+
+        <nav class="w-full px-10 py-8 flex flex-col md:flex-row justify-between items-center gap-6 z-50">
+            <h1 class="text-3xl font-bold tracking-[0.2em] color-y cursor-pointer" @click="tab = 'world'">FLOS</h1>
+            
+            <div class="flex space-x-6 md:space-x-12 text-[11px] uppercase tracking-[0.2em] font-bold">
+                <button @click="tab = 'world'" :class="tab === 'world' ? 'color-p' : 'text-gray-500'" class="hover:text-white transition">The World</button>
+                <button @click="tab = 'species'" :class="tab === 'species' ? 'color-p' : 'text-gray-500'" class="hover:text-white transition">The Flosian</button>
+                <button @click="tab = 'history'" :class="tab === 'history' ? 'color-p' : 'text-gray-500'" class="hover:text-white transition">The Winter</button>
+            </div>
+        </nav>
+
+        <main class="flex-1 max-w-5xl mx-auto px-8 py-12 w-full">
+            
+            <div x-show="tab === 'world'" class="tab-content space-y-12">
+                <header class="text-center md:text-left">
+                    <span class="color-p text-xs tracking-widest uppercase">Chapter 01</span>
+                    <h2 class="text-4xl md:text-5xl font-bold mt-2 mb-6">꽃의 왕국, <span class="color-y">안테이아</span></h2>
+                    <p class="text-gray-400 font-myeongjo leading-loose text-lg italic">
+                        "왕국이 세워질 때부터 굳건했던 자연의 신에 대한 신앙, <br class="hidden md:block">그 축복 속에 안테이아는 평화로웠습니다."
+                    </p>
+                </header>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+                    <img src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?q=80&w=800&auto=format&fit=crop" 
+                         class="rounded-3xl opacity-60 grayscale hover:grayscale-0 transition duration-700" alt="Anteia">
+                    <div class="space-y-6 text-gray-400 text-sm leading-relaxed">
+                        <p>안테이아는 자연의 신을 숭배하는 신앙을 바탕으로 세워졌습니다. 모든 시민은 자연의 축복 속에서 안정적인 삶을 영위했습니다.</p>
+                        <p>어느 날, 왕국의 모든 꽃에서 신비한 변화가 일어났습니다. 마법처럼 빛나기 시작한 꽃들은 곧 인간의 형태를 띠게 되었고, 사람들은 이들을 '플로시안'이라 부르며 이웃으로 받아들였습니다.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div x-show="tab === 'species'" class="tab-content">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold color-p uppercase tracking-tighter mb-4">Flosian : <span class="text-white">플로시안</span></h2>
+                    <div class="w-20 h-px bg-p mx-auto"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="p-8 bg-white/5 rounded-3xl border border-white/5 hover:border-pink-900/30 transition">
+                        <div class="text-2xl mb-4">☀️</div>
+                        <h3 class="text-xl font-bold color-y mb-4">광합성의 생명력</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed font-myeongjo">
+                            플로시안은 인간과 달리 음식을 섭취하지 않아도 살아갈 수 있습니다. 그들은 햇빛을 통해 스스로 에너지를 만들어내는 '광합성'의 축복을 받았습니다.
+                        </p>
+                    </div>
+                    <div class="p-8 bg-white/5 rounded-3xl border border-white/5 hover:border-pink-900/30 transition">
+                        <div class="text-2xl mb-4">🌸</div>
+                        <h3 class="text-xl font-bold color-y mb-4">향기와 종자의 창조</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed font-myeongjo">
+                            자신만의 고유한 꽃 향기를 발산하거나, 새로운 생명의 근원이 되는 꽃의 종자와 씨앗을 직접 창조할 수 있는 초자연적인 능력을 지니고 있습니다.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="mt-12 flex justify-center space-x-4">
+                    <div class="w-12 h-12 rounded-full bg-gray-900 border border-gray-800 flex items-center justify-center text-[10px] text-gray-600">N/A</div>
+                    <div class="w-12 h-12 rounded-full bg-gray-900 border border-gray-800 flex items-center justify-center text-[10px] text-gray-600">N/A</div>
+                    <div class="w-12 h-12 rounded-full bg-gray-900 border border-gray-800 flex items-center justify-center text-[10px] text-gray-600">N/A</div>
+                </div>
+            </div>
+
+            <div x-show="tab === 'history'" class="tab-content">
+                <div class="max-w-2xl mx-auto space-y-12">
+                    <div class="relative pl-8 border-l border-pink-900/30">
+                        <div class="absolute -left-[5px] top-0 w-2 h-2 rounded-full bg-p"></div>
+                        <h3 class="text-2xl font-bold color-y mb-4">사라진 축복, 그리고 긴 겨울</h3>
+                        <p class="text-gray-400 text-sm leading-loose">
+                            그해 겨울, 거짓말처럼 신의 축복이 멈췄습니다. 멈추지 않는 폭설과 함께 생명의 기운이 사그라들었습니다. 비극이 시작되자, 사람들은 누군가를 원망해야만 했고 그 화살은 '플로시안'을 향했습니다.
+                        </p>
+                    </div>
+
+                    <div class="relative pl-8 border-l border-white/10">
+                        <div class="absolute -left-[5px] top-0 w-2 h-2 rounded-full bg-gray-700"></div>
+                        <h3 class="text-2xl font-bold text-gray-400 mb-4">갈라진 세계</h3>
+                        <p class="text-gray-500 text-sm leading-loose">
+                            "그들의 죄인가, 운명의 장난인가." <br>
+                            왕국 안테이아는 선동과 불신으로 물들었습니다. 봄이 왔음에도 꽃은 피지 않았고, 상처받은 플로시안들은 어둠 속으로 숨어들었습니다.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-8">
+                        <div class="text-center p-4 border border-white/5 rounded-xl">
+                            <span class="block text-xs text-gray-600 mb-2 uppercase">Route A</span>
+                            <span class="text-sm color-p">화해</span>
+                        </div>
+                        <div class="text-center p-4 border border-white/5 rounded-xl">
+                            <span class="block text-xs text-gray-600 mb-2 uppercase">Route B</span>
+                            <span class="text-sm text-red-400">복수</span>
+                        </div>
+                        <div class="text-center p-4 border border-white/5 rounded-xl">
+                            <span class="block text-xs text-gray-600 mb-2 uppercase">Route C</span>
+                            <span class="text-sm color-y">새로운 희망</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <footer class="py-10 text-center">
+            <p class="text-[9px] tracking-[0.4em] text-gray-700 uppercase">Project Flos &copy; Anteia Archive</p>
+        </footer>
+    </div>
+
+</body>
+</html>
